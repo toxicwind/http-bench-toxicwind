@@ -1,0 +1,40 @@
+{
+  "environment": "K8s sandbox (s6 init)",
+  "date": "2026-08-18",
+  "proxy": "http://10.86.13.73:5900",
+  "dns": [
+    "192.168.0.10",
+    "8.8.8.8",
+    "1.1.1.1"
+  ],
+  "python": "3.12",
+  "clients": {
+    "curl_cffi_async": {
+      "total_ms": 811,
+      "per_req_ms": 40.6,
+      "notes": "Winner. Connection reuse + TLS batching."
+    },
+    "requests": {
+      "total_ms": 5584,
+      "per_req_ms": 279.2,
+      "notes": "Baseline. New connection per request."
+    },
+    "curl_cffi_sync": {
+      "total_ms": 5739,
+      "per_req_ms": 287.0,
+      "notes": "TLS impersonation overhead."
+    },
+    "httpx": {
+      "total_ms": 5784,
+      "per_req_ms": 289.2,
+      "notes": "Comparable to requests."
+    },
+    "curl_cffi_proxy": {
+      "total_ms": 15902,
+      "per_req_ms": 795.1,
+      "notes": "Proxy adds ~500ms overhead."
+    }
+  },
+  "winner": "curl_cffi_async",
+  "speedup_vs_baseline": 6.9
+}
